@@ -1,4 +1,4 @@
-package org.schiphol.data.remote.support
+package nl.schiphol.schipholkmm.data.remote.support
 
 fun (() -> Exception?).checkShouldThrow() {
     invoke()?.let { throw(it) }

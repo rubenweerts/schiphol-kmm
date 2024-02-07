@@ -1,4 +1,4 @@
-package org.schiphol.data.remote.support
+package nl.schiphol.schipholkmm.data.remote.support
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder

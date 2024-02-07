@@ -1,4 +1,4 @@
-package org.schiphol.data.remote.support
+package nl.schiphol.schipholkmm.data.remote.support
 
 import io.ktor.client.engine.mock.MockRequestHandleScope
 import io.ktor.client.engine.mock.respond
@@ -9,6 +9,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headers
 import io.ktor.http.headersOf
 import io.ktor.utils.io.ByteReadChannel
+import io.ktor.utils.io.charsets.Charsets
 import io.ktor.utils.io.core.toByteArray
 
 

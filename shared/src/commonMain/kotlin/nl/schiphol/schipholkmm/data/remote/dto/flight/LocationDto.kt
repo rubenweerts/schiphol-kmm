@@ -1,7 +1,8 @@
-package org.schiphol.data.remote.dto.flight
+package nl.schiphol.schipholkmm.data.remote.dto.flight
 
 import kotlinx.datetime.TimeZone
 import kotlinx.serialization.Serializable
+import nl.schiphol.schipholkmm.data.remote.dto.flight.AirportDto
 
 @Serializable
 data class LocationDto(

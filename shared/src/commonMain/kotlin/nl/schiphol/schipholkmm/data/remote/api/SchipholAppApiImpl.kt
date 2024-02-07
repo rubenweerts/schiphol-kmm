@@ -1,32 +1,26 @@
-package org.schiphol.data.remote.api
+package nl.schiphol.schipholkmm.data.remote.api
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.engine.cio.CIO
 import io.ktor.client.request.get
-import org.schiphol.common.EnvironmentConfig
-import org.schiphol.data.remote.dto.flight.FlightRouteDto
-import org.schiphol.data.remote.dto.flight.GetFlightInformationArguments
-import org.schiphol.data.remote.http.HttpConfig.defaultContentNegotiationConfig
-import org.schiphol.data.remote.http.HttpConfig.defaultHttpEngine
-import org.schiphol.data.remote.http.HttpConfig.defaultLoggingConfig
-import org.schiphol.data.remote.http.HttpConfig.defaultRequestConfig
-import org.schiphol.data.remote.http.HttpConfig.defaultResponseValidator
-import org.schiphol.data.remote.http.HttpConfig.mockHttpEngine
-import org.schiphol.data.remote.http.routes.SchipholRoutes
+import io.ktor.http.appendPathSegments
+import nl.schiphol.schipholkmm.data.common.EnvironmentConfig
+import nl.schiphol.schipholkmm.data.remote.dto.flight.FlightRouteDto
+import nl.schiphol.schipholkmm.data.remote.dto.flight.GetFlightInformationArguments
+import nl.schiphol.schipholkmm.data.remote.http.HttpConfig
+import nl.schiphol.schipholkmm.data.remote.http.HttpConfig.defaultContentNegotiationConfig
+import nl.schiphol.schipholkmm.data.remote.http.HttpConfig.defaultLoggingConfig
+import nl.schiphol.schipholkmm.data.remote.http.HttpConfig.defaultRequestConfig
+import nl.schiphol.schipholkmm.data.remote.http.HttpConfig.defaultResponseValidator
+import nl.schiphol.schipholkmm.data.remote.http.routes.SchipholRoutes
 
-class SchipholAppApiImpl(
+internal class SchipholAppApiImpl(
     isDebug: Boolean,
     environmentConfig: EnvironmentConfig,
 ) : BaseApi<SchipholRoutes>(SchipholRoutes), SchipholAppApi {
-    override val httpClientEngine = when (environmentConfig) {
-        EnvironmentConfig.Acceptance,
-        EnvironmentConfig.Production,
-        -> defaultHttpEngine()
-
-        EnvironmentConfig.Test -> mockHttpEngine()
-    }
-
-    override val httpClient = HttpClient(httpClientEngine) {
+    override val httpClient = HttpClient(HttpConfig.defaultHttpEngine()) {
+        println(HttpConfig.defaultHttpEngine()::class.qualifiedName)
         defaultLoggingConfig(isDebug)
         defaultContentNegotiationConfig()
         defaultRequestConfig(routes.provideHostConfig(environmentConfig))
@@ -35,13 +29,26 @@ class SchipholAppApiImpl(
 
     override suspend fun getFlight(id: String): Result<FlightRouteDto> = runCatching {
         httpClient.get {
-            routes.flightRoute(id)
+            url {
+                appendPathSegments(
+                    "flight",
+                    id,
+                )
+            }
         }.body()
     }
 
-    override suspend fun getFlight(arguments: GetFlightInformationArguments): Result<FlightRouteDto> = runCatching {
-        httpClient.get {
-            routes.flightInformation(arguments)
-        }.body()
-    }
+    override suspend fun getFlight(arguments: GetFlightInformationArguments): Result<FlightRouteDto> =
+        runCatching {
+            httpClient.get {
+                url {
+                    appendPathSegments(
+                        "flight",
+                        arguments.direction.value,
+                        arguments.formattedDate,
+                        arguments.number,
+                    )
+                }
+            }.body()
+        }
 }

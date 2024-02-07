@@ -1,53 +1,106 @@
 [versions]
 agp = "8.2.2"
-kotlin = "1.9.21"
+androidx-activityCompose = "1.8.2"
+androidx-lifecycle = "2.7.0"
+compose = "1.6.0"
+compose-compiler = "1.5.8"
+compose-material3 = "1.1.2"
+kotlin = "1.9.22"
+kotlinx-coroutines = "1.7.3"
+kotlinx-datetime = "0.5.0"
+kotlinx-collections-immutable = "0.3.7"
 kotlinx-serialization = "1.6.2"
 ktor = "2.3.7"
-compose = "1.6.0"
-compose-compiler = "1.5.4"
-compose-material3 = "1.1.2"
-androidx-activityCompose = "1.8.2"
-jetbrainsKotlinJvm = "1.9.21"
+koin = "3.5.3"
+ksp = "1.9.22-1.0.16"
+skie = "0.6.1"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+kotlinKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+skie = { id = "co.touchlab.skie", version.ref = "skie" }
 
 [libraries]
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlin-x-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-lifecycle-compiler = { module = "androidx.lifecycle:lifecycle-compiler", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 
 #KTOR
 io-ktor-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-io-ktor-ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 io-ktor-ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 io-ktor-ktor-client-resources = { module = "io.ktor:ktor-client-resources", version.ref = "ktor" }
 io-ktor-ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 io-ktor-ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 io-ktor-ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 io-ktor-ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
-io-ktor-ktor-client-mock-jvm = { module = "io.ktor:ktor-client-mock-jvm", version.ref = "ktor" }
+io-ktor-ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+io-ktor-ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+io-ktor-ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+#todo darwin client
 
 [bundles]
-ktor-client = [
+kotlin-x = [
+    "kotlinx-serialization",
+    "kotlinx-datetime",
+    "kotlinx-coroutines-core",
+    "kotlinx-collections-immutable",
+]
+
+kotlin-x-test = [
+    "kotlinx-coroutines-test",
+]
+
+ktor-client-common = [
     "io-ktor-ktor-client-core",
-    "io-ktor-ktor-client-okhttp",
+    "io-ktor-ktor-client-cio",
     "io-ktor-ktor-client-content-negotiation",
     "io-ktor-ktor-client-resources",
     "io-ktor-ktor-client-auth",
     "io-ktor-ktor-serialization-kotlinx-json",
     "io-ktor-ktor-client-logging",
-    "io-ktor-ktor-client-mock", #TODO: remove when we have the API connection set up (see test-ktor)
-    "io-ktor-ktor-client-mock-jvm", #TODO: remove when we have the API connection set up (see test-ktor)
+    "io-ktor-ktor-client-mock",
+]
+
+ktor-client-android = [
+    "io-ktor-ktor-client-android",
+]
+
+ktor-client-darwin = [
+    "io-ktor-ktor-client-darwin",
+]
+
+androidx-lifecycle = [
+    "androidx-lifecycle-compiler",
+    "androidx-lifecycle-runtime-ktx",
+    "androidx-lifecycle-viewmodel-compose",
+    "androidx-lifecycle-viewmodel-ktx",
+]
+
+koin-common = [
+    "koin-core"
+]
+koin-android = [
+    "koin-android",
 ]

@@ -1,4 +1,4 @@
-package org.schiphol.data.remote.exception
+package nl.schiphol.schipholkmm.data.remote.exception
 
 import io.ktor.http.HttpStatusCode
 
@@ -8,7 +8,7 @@ class ConflictException(
 ) : RemoteResponseException(status.value, responseText) {
     override val message: String = buildString {
         append("Conflict: ${requestUrl}. ")
-        append("Status: ${status}.")
+        append("Status: $status.")
     }
 
     companion object {

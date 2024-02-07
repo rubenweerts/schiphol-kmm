@@ -1,4 +1,4 @@
-package org.schiphol.data.remote.serializer
+package nl.schiphol.schipholkmm.data.remote.serializer
 
 import kotlinx.datetime.UtcOffset
 import kotlinx.datetime.asTimeZone
@@ -10,7 +10,7 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import org.schiphol.data.remote.dto.fis.OffsetInstantDto
+import nl.schiphol.schipholkmm.data.remote.dto.fis.OffsetInstantDto
 
 object OffsetInstantDtoSerializer : KSerializer<OffsetInstantDto> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("OffsetInstant", PrimitiveKind.STRING)

@@ -1,4 +1,4 @@
-package org.schiphol.data.remote.exception
+package nl.schiphol.schipholkmm.data.remote.exception
 
 open class RemoteResponseException(
     statusCode: Int,

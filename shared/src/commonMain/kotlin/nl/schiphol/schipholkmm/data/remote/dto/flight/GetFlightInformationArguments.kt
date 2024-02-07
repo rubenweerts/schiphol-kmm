@@ -1,8 +1,6 @@
-package org.schiphol.data.remote.dto.flight
+package nl.schiphol.schipholkmm.data.remote.dto.flight
 
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.toJavaLocalDate
-import java.time.format.DateTimeFormatter
 
 data class GetFlightInformationArguments(
     val direction: FlightDirectionArg,
@@ -10,6 +8,6 @@ data class GetFlightInformationArguments(
     val number: String,
 ) {
     val formattedDate: String
-        get() = DateTimeFormatter.ISO_DATE.format(date.toJavaLocalDate()) //FIXME: Use shared formatter for consistency
+        get() = date.toString() //fixme
 
 }

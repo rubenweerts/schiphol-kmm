@@ -1,4 +1,4 @@
-package org.schiphol.data.remote.serializer
+package nl.schiphol.schipholkmm.data.remote.serializer
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json

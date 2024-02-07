@@ -1,4 +1,4 @@
-package org.schiphol.data.remote.dto.fis
+package nl.schiphol.schipholkmm.data.remote.dto.fis
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

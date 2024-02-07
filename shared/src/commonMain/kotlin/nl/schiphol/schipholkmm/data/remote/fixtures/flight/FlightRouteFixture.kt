@@ -1,6 +1,6 @@
-package org.schiphol.data.remote.fixtures.flight
+package nl.schiphol.schipholkmm.data.remote.fixtures.flight
 
-import org.schiphol.data.remote.fixtures.JsonFixture
+import nl.schiphol.schipholkmm.data.remote.fixtures.JsonFixture
 
 object FlightRouteFixture : JsonFixture {
     const val id = "A20230919EJU8674"
@@ -12,10 +12,10 @@ object FlightRouteFixture : JsonFixture {
           "fisFlight": {
             "_links": {
               "self": {
-                "href": "https://acc.schiphol.dev/api/fis/flight/arrival/20230919/${number}"
+                "href": "https://acc.schiphol.dev/api/fis/flight/arrival/20230919/$number"
               },
               "mainFlight": {
-                "href": "https://acc.schiphol.dev/api/fis/flight/arrival/20230919/${number}"
+                "href": "https://acc.schiphol.dev/api/fis/flight/arrival/20230919/$number"
               },
               "contact": {
                 "href": "https://acc.schiphol.dev/en/airline/easyjet-europe-eju"

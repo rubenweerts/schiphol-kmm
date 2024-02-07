@@ -1,4 +1,4 @@
-package org.schiphol.data.remote.dto.fis
+package nl.schiphol.schipholkmm.data.remote.dto.fis
 
 import kotlinx.datetime.Instant
 import kotlinx.datetime.UtcOffset

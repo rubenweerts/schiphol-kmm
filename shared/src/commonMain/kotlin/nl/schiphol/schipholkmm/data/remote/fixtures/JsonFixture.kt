@@ -1,4 +1,4 @@
-package org.schiphol.data.remote.fixtures
+package nl.schiphol.schipholkmm.data.remote.fixtures
 
 import io.ktor.http.HttpStatusCode
 

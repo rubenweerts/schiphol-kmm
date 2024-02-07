@@ -1,11 +1,11 @@
-package org.schiphol.data.remote.api
+package nl.schiphol.schipholkmm.data.remote.api
 
 import kotlinx.datetime.LocalDate
-import org.schiphol.data.remote.dto.flight.FlightRouteDto
-import org.schiphol.data.remote.dto.flight.FlightDirectionArg
-import org.schiphol.data.remote.dto.flight.GetFlightInformationArguments
+import nl.schiphol.schipholkmm.data.remote.dto.flight.FlightRouteDto
+import nl.schiphol.schipholkmm.data.remote.dto.flight.FlightDirectionArg
+import nl.schiphol.schipholkmm.data.remote.dto.flight.GetFlightInformationArguments
 
-interface SchipholAppApi {
+internal interface SchipholAppApi {
 
     suspend fun getFlight(id: String): Result<FlightRouteDto>
 

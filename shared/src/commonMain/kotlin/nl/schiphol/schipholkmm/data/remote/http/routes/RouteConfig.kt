@@ -1,4 +1,4 @@
-package org.schiphol.data.remote.http.routes
+package nl.schiphol.schipholkmm.data.remote.http.routes
 
 
 sealed interface RouteConfig

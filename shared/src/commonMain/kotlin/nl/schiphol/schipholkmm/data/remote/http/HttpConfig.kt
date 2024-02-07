@@ -1,13 +1,13 @@
-package org.schiphol.data.remote.http
+package nl.schiphol.schipholkmm.data.remote.http
 
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.HttpClientEngineConfig
+import io.ktor.client.engine.HttpClientEngineFactory
+import io.ktor.client.engine.cio.CIO
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockEngineConfig
 import io.ktor.client.engine.mock.respondError
-import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.engine.okhttp.OkHttpConfig
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -23,16 +23,14 @@ import io.ktor.http.URLProtocol
 import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.appendIfNameAbsent
-import org.schiphol.data.remote.exception.ConflictException
-import org.schiphol.data.remote.exception.NotFoundException
-import org.schiphol.data.remote.fixtures.flight.flightMocks
-import org.schiphol.data.remote.fixtures.timeslot.timeslotMocks
-import org.schiphol.data.remote.http.routes.HostConfig
-import org.schiphol.data.remote.serializer.Serializer
-import java.util.Locale
+import nl.schiphol.schipholkmm.data.remote.exception.ConflictException
+import nl.schiphol.schipholkmm.data.remote.exception.NotFoundException
+import nl.schiphol.schipholkmm.data.remote.fixtures.flight.flightMocks
+import nl.schiphol.schipholkmm.data.remote.http.routes.HostConfig
+import nl.schiphol.schipholkmm.data.remote.serializer.Serializer
 
-object HttpConfig {
-    fun defaultHttpEngine(): HttpClientEngine = OkHttp.create { okHttpEngineConfig() }
+internal object HttpConfig {
+    fun defaultHttpEngine(): HttpClientEngineFactory<*> = PlatformHttpEngine().getEngine()
     fun mockHttpEngine(): HttpClientEngine = MockEngine.create { mockEngineConfig() }
 
     fun <T : HttpClientEngineConfig> HttpClientConfig<T>.defaultLoggingConfig(isDebug: Boolean) {
@@ -60,7 +58,7 @@ object HttpConfig {
                 path(hostConfig.basePath)
             }
             headers.apply {
-                appendIfNameAbsent("Accept-Language", Locale.getDefault().language)
+                appendIfNameAbsent("Accept-Language", "nl")
             }
         }
     }
@@ -69,7 +67,8 @@ object HttpConfig {
         expectSuccess = true
         HttpResponseValidator {
             handleResponseExceptionWithRequest { exception, _ ->
-                val clientException = exception as? ClientRequestException ?: return@handleResponseExceptionWithRequest
+                val clientException = exception as? ClientRequestException
+                    ?: return@handleResponseExceptionWithRequest
                 val exceptionResponse = clientException.response
 
                 when (exceptionResponse.status) {
@@ -80,6 +79,7 @@ object HttpConfig {
                             requestUrl = exceptionResponse.call.request.url.toString(),
                         )
                     }
+
                     HttpStatusCode.Conflict -> {
                         val exceptionResponseText = exceptionResponse.bodyAsText()
                         throw ConflictException(
@@ -92,14 +92,9 @@ object HttpConfig {
         }
     }
 
-    private fun OkHttpConfig.okHttpEngineConfig() {
-        // Currently no additional config (interceptors / auth / tokens / ect) for the default engine.
-    }
-
     private fun MockEngineConfig.mockEngineConfig() {
         addHandler { requestData ->
             flightMocks(requestData)
-                ?: timeslotMocks(requestData)
                 ?: respondError(
                     HttpStatusCode.NotFound,
                     content = "No mock found for \"${requestData.url}\""

@@ -1,4 +1,4 @@
-package org.schiphol.data.remote.dto.flight
+package nl.schiphol.schipholkmm.data.remote.dto.flight
 
 import kotlinx.serialization.Serializable
 
