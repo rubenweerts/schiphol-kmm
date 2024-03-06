@@ -35,7 +35,7 @@ kotlin {
             implementation(libs.bundles.kotlin.x)
             implementation(libs.bundles.ktor.client.common)
             implementation(libs.bundles.koin.common)
-            implementation(libs.sqldelight.sqlite.driver)
+//            implementation(libs.sqldelight.sqlite.driver)
             implementation(libs.sqldelight.coroutines.extensions)
         }
 
