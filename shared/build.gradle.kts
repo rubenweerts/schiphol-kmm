@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.skie)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -22,23 +23,30 @@ kotlin {
         it.binaries.framework {
             baseName = "shared"
             isStatic = true
+
+            export(project(":shared:data"))
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
+            api(project(":shared:data"))
+            api(libs.kmmResult)
             implementation(libs.bundles.kotlin.x)
             implementation(libs.bundles.ktor.client.common)
             implementation(libs.bundles.koin.common)
+            implementation(libs.sqldelight.sqlite.driver)
+            implementation(libs.sqldelight.coroutines.extensions)
         }
 
         androidMain.dependencies {
             implementation(libs.bundles.ktor.client.android)
+            implementation(libs.sqldelight.android.driver)
         }
 
         iosMain.dependencies {
             implementation(libs.bundles.ktor.client.darwin)
+            implementation(libs.sqldelight.native.driver)
         }
 
         commonTest.dependencies {
@@ -57,5 +65,14 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+
+sqldelight {
+    databases {
+        create("SchipholDatabase") {
+            packageName.set("nl.schiphol.schipholkmm.database.common")
+        }
     }
 }

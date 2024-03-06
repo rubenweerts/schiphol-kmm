@@ -11,6 +11,7 @@ struct ContentView: View {
         ){
             Button("Fetch flight"){
                 self.viewModel.fetchFlight()
+                self.viewModel.testRepositoryImplExample()
             }
             
             switch(viewModel.flightViewState){
@@ -32,22 +33,52 @@ extension ContentView{
         @Published private(set) var flightViewState = FlightViewState.empty
         
         let flightRepository: FlightRepository
+        let testRepository: TestRepository
         
         init() {
             let dependencyProvider = KoinDependencyProvider.shared
             flightRepository = dependencyProvider.flightRepository
+            testRepository = dependencyProvider.testRepository
+        }
+        
+        func testRepositoryImplExample(){
+            let normalResult = testRepository.normalFun()
+            print("normalResult = \(normalResult)")
+            
+            // coroutine suspend fun
+            Task{
+                let suspendResult = try await   testRepository.suspendFun()
+                print("suspendResult = \(suspendResult)")
+            }
+            
+            // flow
+            Task{
+                let asyncIterator = testRepository.flowFun()
+                
+                for await value in asyncIterator{
+                    await MainActor.run{
+                        print("flowFun next = \(value)")
+                    }
+                }
+            }
         }
         
         func fetchFlight(){
             flightViewState = FlightViewState.loading
             
+            
             Task{
                 do{
                     let result = try await flightRepository.fetchFlight()
                     print(result.debugDescription)
-                    flightViewState = .content(FlightViewState.Content(flightRoute: result))
+                    
+                    await MainActor.run{
+                        flightViewState = .content(FlightViewState.Content(flightRoute: result))
+                    }
                 }catch let error{
-                    flightViewState = .error(error.localizedDescription)
+                    await MainActor.run{
+                        flightViewState = .error(error.localizedDescription)
+                    }
                 }
             }
         }

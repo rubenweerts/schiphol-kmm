@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "Schiphol"
 include(":androidApp")
 include(":shared")
+include(":shared:data")

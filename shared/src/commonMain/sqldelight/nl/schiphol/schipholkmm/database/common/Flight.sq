@@ -1,0 +1,14 @@
+CREATE TABLE FlightEntity (
+    id TEXT UNIQUE NOT NULL
+);
+
+selectAll:
+SELECT * FROM FlightEntity;
+
+insertFlight:
+INSERT OR IGNORE INTO FlightEntity
+VALUES (?);
+
+deleteFlight:
+DELETE FROM FlightEntity
+WHERE id = :id;

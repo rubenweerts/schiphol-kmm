@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 internal fun repositoryModule()= module {
     includes(mapperModule())
-    single<FlightRepository> { FlightRepositoryImpl(get(), get()) }
+    single<FlightRepository> { FlightRepositoryImpl(get(), get(), get()) }
 }
